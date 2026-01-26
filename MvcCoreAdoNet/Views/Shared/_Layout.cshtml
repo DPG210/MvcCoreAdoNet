@@ -1,0 +1,72 @@
+﻿
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+
+    <title>Mi super MVC</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/navbar-fixed/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="~/css/navbar-top-fixed.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        
+        <div class="container-fluid" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a asp-controller="Home" asp-action="Index" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item active">
+                    <a asp-controller="Home" asp-action="VistaPrimera" class="nav-link">Vista 1</a>
+                </li>
+                <li class="nav-item active">
+                    <a asp-controller="Home" asp-action="VistaImagen" class="nav-link">Imagen</a>
+                </li>
+                <li class="nav-item active">
+                    <a asp-controller="Hospital" asp-action="Index" class="nav-link">Hospitales</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main role="main" class="container">
+        <div class="jumbotron">
+            @if (IsSectionDefined("images"))
+            {
+                @RenderSection("images", false)
+
+            }
+            else
+            {
+                <img src="~/images/expedition33.jpg" alt="Alternate Text" style="width: 150px; height:150px;" />
+            }
+           
+            @RenderBody()
+            
+        </div>
+    </main>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="~/js/jquery-3.7.1.js" crossorigin="anonymous"></script> 
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    @RenderSection("script", false)
+    
+   
+    
+</body>
+</html>

@@ -1,0 +1,43 @@
+﻿using Microsoft.Data.SqlClient;
+using MvcCoreAdoNet.Models;
+using System.Data;
+
+namespace MvcCoreAdoNet.Repositories
+{
+    public class RepositoryHospital
+    {
+        private SqlConnection cn;
+        private SqlCommand com;
+        private SqlDataReader reader;
+        public RepositoryHospital()
+        {
+            string connectionString = @"Data Source=LOCALHOST\DEVELOPER;Initial Catalog=HOSPITAL;Persist Security Info=True;User ID=SA;Encrypt=True;Trust Server Certificate=True";
+            this.cn = new SqlConnection(connectionString);
+            this.com = new SqlCommand();
+            this.com.Connection = this.cn;
+        }
+
+        public async Task<List<Hospital>> GetHospitalesAsync()
+        {
+            string sql = "select * from HOSPITAL";
+            this.com.CommandType = CommandType.Text;
+            this.com.CommandText = sql;
+            await this.cn.OpenAsync();
+            this.reader = await this.com.ExecuteReaderAsync();
+            List<Hospital> hospitales = new List<Hospital>();
+            while(await this.reader.ReadAsync())
+            {
+                Hospital h = new Hospital();
+                h.IdHospital = int.Parse(this.reader["Hospital_cod"].ToString());
+                h.Nombre = this.reader["Nombre"].ToString();
+                h.Direccion = this.reader["direccion"].ToString();
+                h.Telefono = this.reader["telefono"].ToString();
+                h.Camas  = int.Parse(this.reader["num_cama"].ToString());
+                hospitales.Add(h);
+            }
+            await this.reader.CloseAsync();
+            await this.cn.CloseAsync();
+            return hospitales;
+        }
+    }
+}

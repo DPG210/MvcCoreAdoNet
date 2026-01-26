@@ -1,0 +1,17 @@
+﻿<h1>Esta es la primera vista</h1>
+@section script{
+    <script>
+        $(document).ready(function(){
+            $("#botonvista").click(function(){
+                $("#mensajevista").text("Boton hola");
+            })
+        })
+    </script>
+}
+
+<h2 style="color:blue" id="mensajevista">
+    Mensaje en vista
+</h2>
+<button class="btn btn-info" id="botonvista">
+    Pulsar en View
+</button>
