@@ -2,6 +2,8 @@
 
     <h1>Hospitales Ado Net</h1>
 
+    <a asp-controler="Hospital" asp-action="Create">New Hospital</a><br />
+
     <table class="table-bordered">
     <thead>
         <tr>
@@ -18,7 +20,14 @@
                 <td>@hospital.Direccion</td>
                 <td>@hospital.Telefono</td>
                 <td>
+                    <a asp-controller="Hospital" asp-action="Details" class="btn btn-succes" asp-route-id="@hospital.IdHospital">Detalles</a>
                     @Html.ActionLink("Details","Details","Hospital", new {id= hospital.IdHospital}, new{@class="btn-btn-succes"})
+                </td>
+                <td>
+                    @Html.ActionLink("Update","Edit","Hospital", new {id=hospital.IdHospital}, new{@class="btn btn-info"});
+                </td>
+                <td>
+                    @Html.ActionLink("Delete", "Delete", "Hospital", new { id = hospital.IdHospital }, new { @class = "btn btn-danger" });
                 </td>
             </tr>
         }

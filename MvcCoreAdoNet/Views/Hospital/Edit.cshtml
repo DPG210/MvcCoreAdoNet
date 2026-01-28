@@ -1,0 +1,24 @@
+﻿@model Hospital
+
+<h1>Update Hospital</h1>
+
+@if(Model != null)
+{
+    <form method="post">
+    <label>Id</label><br />
+    <input type="text" name="idhospital" class="form-control" readonly value="@Model.IdHospital" /> <br />
+    <label>Nombre</label><br />
+    <input type="text" name="nombre" class="form-control" value="@Model.Nombre" /><br />
+    <label>Direccion</label><br />
+    <input type="text" name="direccion" class="form-control" value="@Model.Direccion" /><br />
+    <label>Telefono</label><br />
+    <input type="text" name="telefono" class="form-control" value="@Model.Telefono" /><br />
+    <label>Camas</label<br />
+    <input type="text" name="camas" class="form-control" value="@Model.Camas" /><br />
+    <button class="btn btn-info">Insertar</button>
+</form>
+}
+
+
+
+<h2 style="color:fuchsia">@ViewData["mensaje"]</h2>

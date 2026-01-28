@@ -1,0 +1,31 @@
+﻿@model List<Doctor>
+
+<h1>Doctores Ado Net</h1>
+<form method="post" asp-controller="Doctor" asp-action="Index">
+    <label>Especialidad</label>
+    <input type="text" name="especialidad" />
+
+   <button>Buscar</button>
+</form>
+
+<table class="table-bordered">
+    <thead>
+        <tr>
+            <th>id doctor</th>
+            <th>Apellido</th>
+            <th>Especialidad</th>
+            <th>Salario</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Doctor doctor in Model)
+        {
+            <tr>
+                <td>@doctor.DoctorNum</td>
+                <td>@doctor.Apellido</td>
+                <td>@doctor.Especialidad</td>
+                <td>@doctor.Salario</td>
+            </tr>
+        }
+    </tbody>
+</table>

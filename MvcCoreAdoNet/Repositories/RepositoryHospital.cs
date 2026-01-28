@@ -11,7 +11,7 @@ namespace MvcCoreAdoNet.Repositories
         private SqlDataReader reader;
         public RepositoryHospital()
         {
-            string connectionString = @"Data Source=LOCALHOST\DEVELOPER;Initial Catalog=HOSPITAL;Persist Security Info=True;User ID=SA;Encrypt=True;Trust Server Certificate=True";
+            string connectionString = @"Data Source=LOCALHOST\DEVELOPER;Initial Catalog=HOSPITALES;Persist Security Info=True;User ID=SA;Password=Admin123;Encrypt=True;Trust Server Certificate=True";
             this.cn = new SqlConnection(connectionString);
             this.com = new SqlCommand();
             this.com.Connection = this.cn;
@@ -61,6 +61,106 @@ namespace MvcCoreAdoNet.Repositories
             this.com.Parameters.Clear();
             return hospital;
 
+        }
+        public async Task InsertHospitalAsync(int idHospital, string nombre, string direccion, string telefono, int camas)
+        {
+            string sql = "insert into Hospital values (@hospitalcod,@nombre,@direccion,@telefono,@camas)";
+            this.com.Parameters.AddWithValue("@hospitalcod", idHospital);
+            this.com.Parameters.AddWithValue("@nombre", nombre);
+            this.com.Parameters.AddWithValue("@direccion", direccion);
+            this.com.Parameters.AddWithValue("@telefono", telefono);
+            this.com.Parameters.AddWithValue("@camas", camas);
+            this.com.CommandType = CommandType.Text;
+            this.com.CommandText = sql;
+            await this.cn.OpenAsync();
+            await this.com.ExecuteNonQueryAsync();
+            await this.cn.CloseAsync();
+            this.com.Parameters.Clear();
+        }
+
+        public async Task UpdateHospitalAsync(int idHospital, string nombre, string direccion, string telefono, int camas)
+        {
+            string sql = "update Hospital set Nombre=@nombre, direccion=@direccion, telefono=@telefono, num_cama=@camas where hospital_cod=@hospitalcod";
+            this.com.Parameters.AddWithValue("@hospitalcod", idHospital);
+            this.com.Parameters.AddWithValue("@nombre", nombre);
+            this.com.Parameters.AddWithValue("@direccion", direccion);
+            this.com.Parameters.AddWithValue("@telefono", telefono);
+            this.com.Parameters.AddWithValue("@camas", camas);
+            this.com.CommandType = CommandType.Text;
+            this.com.CommandText = sql;
+            await this.cn.OpenAsync();
+            await this.com.ExecuteNonQueryAsync();
+            await this.cn.CloseAsync();
+            this.com.Parameters.Clear();
+        }
+
+        public async Task DeleteHospitalAsync(int idHospital)
+        {
+            string sql = "delete from hospital where hospital_cod=@hospitalcod";
+            this.com.Parameters.AddWithValue("@hospitalcod", idHospital);
+            this.com.CommandType = CommandType.Text;
+            this.com.CommandText = sql;
+            await this.cn.OpenAsync();
+            await this.com.ExecuteNonQueryAsync();
+            await this.cn.CloseAsync();
+            this.com.Parameters.Clear();
+        }
+
+        public async Task <List<Doctor>> GetDoctoresAsync()
+        {
+            string sql = "select * from doctor";
+            this.com.CommandType = CommandType.Text;
+            this.com.CommandText = sql;
+            await this.cn.OpenAsync();
+            this.reader = await this.com.ExecuteReaderAsync();
+            List<Doctor> doctores = new List<Doctor>();
+            while(await this.reader.ReadAsync())
+            {
+                Doctor d= new Doctor();
+                int hosp = int.Parse(this.reader["Hospital_cod"].ToString());
+                int num = int.Parse(this.reader["doctor_no"].ToString());
+                string ape = this.reader["apellido"].ToString();
+                string esp = this.reader["especialidad"].ToString();
+                int sal = int.Parse(this.reader["salario"].ToString());
+                d.HospitalCod = hosp;
+                d.DoctorNum = num;
+                d.Apellido = ape;
+                d.Especialidad = esp;
+                d.Salario = sal;
+                doctores.Add(d);
+            }
+            await this.reader.CloseAsync();
+            await this.cn.CloseAsync();
+            return doctores;
+        }
+        public async Task<List<Doctor>> FindEspecialidadAsync (string especialidad)
+        {
+            string sql = "select * from doctor where especialidad= @especialidad";
+            this.com.Parameters.AddWithValue("@especialidad", especialidad);
+            this.com.CommandType = CommandType.Text;
+            this.com.CommandText = sql;
+            await this.cn.OpenAsync();
+            this.reader = await this.com.ExecuteReaderAsync();
+            List<Doctor> doctores = new List<Doctor>();
+            while (await this.reader.ReadAsync())
+            {
+                Doctor d = new Doctor();
+                int hosp = int.Parse(this.reader["Hospital_cod"].ToString());
+                int num = int.Parse(this.reader["doctor_no"].ToString());
+                string ape = this.reader["apellido"].ToString();
+                string esp = this.reader["especialidad"].ToString();
+                int sal = int.Parse(this.reader["salario"].ToString());
+                d.HospitalCod = hosp;
+                d.DoctorNum = num;
+                d.Apellido = ape;
+                d.Especialidad = esp;
+                d.Salario = sal;
+                doctores.Add(d);
+            }
+            await this.reader.CloseAsync();
+            await this.cn.CloseAsync();
+            this.com.Parameters.Clear();
+            return doctores;
         }
     }
 }
