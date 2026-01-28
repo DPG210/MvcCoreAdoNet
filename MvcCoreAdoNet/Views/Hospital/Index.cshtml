@@ -17,6 +17,9 @@
                 <td>@hospital.Nombre</td>
                 <td>@hospital.Direccion</td>
                 <td>@hospital.Telefono</td>
+                <td>
+                    @Html.ActionLink("Details","Details","Hospital", new {id= hospital.IdHospital}, new{@class="btn-btn-succes"})
+                </td>
             </tr>
         }
     </tbody>
